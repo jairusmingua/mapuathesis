@@ -11,8 +11,6 @@ function Survey(props) {
   const [toggle,setToggle]=useState(toggles["none"]);
 
 
-
-
   useEffect(() => {
     refreshTweet();
   }, []);
@@ -25,9 +23,6 @@ function Survey(props) {
   
   
   function nextQuestion(buttonpressed) {
-
-   
-    
         if(toggle=="none"){
             setToggle(buttonpressed);
         }
@@ -43,13 +38,12 @@ function Survey(props) {
             setToggle(buttonpressed);
         }
     
-
   }
   function refreshTweet() {
     setLoaded(false);
     var tweet_ = null;
     axios
-      .get(process.env.API || "http://"+window.location.hostname+":5000/", {
+      .get(process.env.REACT_APP_API || "http://"+window.location.hostname+":5000/", {
         headers: {
           "Content-type": "application/json",
         },

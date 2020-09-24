@@ -7,6 +7,7 @@ import Fillup from "./components/Fillup";
 import Survey from "./components/Survey";
 import ThankYou from "./components/ThankYou";
 import { BrowserRouter as Router, NavLink, Switch , Route} from "react-router-dom";
+import {} from 'dotenv/config';
 function App() {
   const [headertxt,setHeader] =useState("");
   const [subtxt,setSub] =useState("");
