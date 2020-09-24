@@ -5,6 +5,7 @@ import Greetings from './components/Greetings';
 import {useState,useEffect}from "react";
 import Fillup from "./components/Fillup";
 import Survey from "./components/Survey";
+import ThankYou from "./components/ThankYou";
 import { BrowserRouter as Router, NavLink, Switch , Route} from "react-router-dom";
 function App() {
   const [headertxt,setHeader] =useState("");
@@ -35,9 +36,6 @@ function App() {
             {/* maincontent */}
             <Router>
               <Switch>
-                {/* <Route exact path="/" component={Greetings}/>
-                <Route path="/FillUp" component={Fillup}/>
-           */}
                 <Route exact path="/">
                   <Greetings setHeader={setHeader} setSub={setSub}/>
                 </Route>
@@ -46,6 +44,9 @@ function App() {
                 </Route>
                 <Route path="/Survey">
                   <Survey setHeader={setHeader} setSub={setSub} setUserInfo={setUserInfo} headertxt={headertxt} subtxt={subtxt} tweet={tweet} setTweet={setTweet}/>
+                </Route>
+                <Route path="/ThankYou">
+                  <ThankYou setHeader={setHeader} setSub={setSub} setUserInfo={setUserInfo} headertxt={headertxt} subtxt={subtxt} tweet={tweet} setTweet={setTweet}/>
                 </Route>
                 
               </Switch>
