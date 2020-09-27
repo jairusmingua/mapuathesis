@@ -91,12 +91,6 @@ function Fillup(props) {
           className="btn primarybtn btn-lg px-5 mt-lg-5 mt-4 "
           value="Next"
         />
-
-        {/* <NavLink to="/Survey">
-            <button className="btn primarybtn btn-lg px-5 mt-lg-5 mt-4 ">
-                Next
-            </button>
-        </NavLink> */}
       </form>
     </div>
   );

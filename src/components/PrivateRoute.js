@@ -4,11 +4,9 @@ import {util} from '../utils/util.js';
 const PrivateRoute = ({component: Component, ...rest}) => {
     console.log(util.isDone());
     return (
-        // Show the component only when the user is logged in
-        // Otherwise, redirect the user to /signin page
         <Route {...rest} render={props => (
             util.isDone()==true ?
-                <Component {...rest} />
+                <Component {...props} {...rest}/>
             : <Redirect to="/" />
         )} />
     );

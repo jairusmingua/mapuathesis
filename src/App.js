@@ -30,7 +30,7 @@ function App() {
       <div class="container">
         <div class="row mt-5 mx-2">
           <div class="col">
-            {/* header */}
+     
             <div class="row">
               <div class="col-8 p-0 mt-lg-5 mt-2">
                 <h1 class="float-center">{headertxt}</h1>
@@ -43,7 +43,7 @@ function App() {
                 />
               </div>
             </div>
-            {/* maincontent */}
+    
             <Router>
               <Route
                 render={({location}) => (
