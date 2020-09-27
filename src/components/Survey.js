@@ -12,6 +12,8 @@ function Survey({...props}) {
   console.log(props);
 
   useEffect(() => {
+    props.setHeader("Is the tweet fire related or not?");
+    props.setSub("Lock-in your answer");
     refreshTweet();
   }, []);
   useEffect(() => {
@@ -40,6 +42,7 @@ function Survey({...props}) {
     var tweet_ = null;
     await axios
       .get(
+        process.env.REACT_APP_API ||
         "http://" + window.location.hostname + ":5000/",
         {
           headers: {
@@ -51,6 +54,7 @@ function Survey({...props}) {
         console.log(data.data[0].text);
         tweet_ = data.data[0].text;
         props.setTweet(tweet_);
+        
         setLoaded(true);
       })
       .catch((err) => {
