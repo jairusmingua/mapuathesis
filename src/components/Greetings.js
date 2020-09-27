@@ -5,10 +5,11 @@ function Greetings(props) {
   useEffect(() => {
     props.setHeader("Greetings!")
     props.setSub("");   
+    localStorage.removeItem("s_u");
     
   });
   return (
-    <div class="row pt-4">
+    <div class="row pt-4 page">
       <p class="col-12 col-sm-12 col-md-9 p-0 lead">
         We are students from Mapua University and we are conducting a survey
         regarding our thesis. Our thesis aims to&nbsp;

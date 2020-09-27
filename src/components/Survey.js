@@ -9,7 +9,7 @@ function Survey(props) {
   const [questionIndex, setQuestionIndex] = useState(1);
   let toggles = ["Yes","No","none"];
   const [toggle,setToggle]=useState(toggles["none"]);
-
+  console.log(props);
 
   useEffect(() => {
     refreshTweet();
@@ -29,7 +29,10 @@ function Survey(props) {
         else if(toggle!=toggles["none"] && buttonpressed==toggle){
             setQuestionIndex(questionIndex + 1);
             if(questionIndex==numberOfQuestions){
-                history.push("/ThankYou");
+                localStorage.setItem("s_u","false");
+                // localStorage.setItem("d","true");
+                // history.push("/ThankYou");
+                window.location = "/ThankYou";
             }
             else{
                 refreshTweet();

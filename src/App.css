@@ -55,6 +55,7 @@ img.logo {
   background-color: #739203;
   font-size: 0.9em;
   position: fixed;
+  
 }
 
 .btn-group-lg>.btn,
@@ -79,6 +80,12 @@ img.logo {
   font-weight: 700;
   background-color: #ff0000 !important;
 }
+.page{
+  /* position: absolute; */
+  padding-right: 1em;
+  height: 100%;
+  width: 100%;
+}
 .box{
   background-color: white;
   height: 100%;
@@ -87,4 +94,34 @@ img.logo {
   border-radius: 2rem;
   box-shadow: #4f4e4e4d -4px 4px 30px;
 
+}
+.fade-appear,
+.fade-enter{
+  opacity: 0;
+  transform: translateX(100vw);
+  z-index: 1;
+  position: absolute;
+}
+.fade-enter-done{
+  transform: translateX(0);
+  /* opacity: 1; */
+  position: unset;
+  transition: transform 500ms;
+}
+/* .fade-appear-active,
+.fade-appear.fade-enter-active{
+  transform: translateX(-100vw);
+  
+  transition: transform 5000ms;
+} */
+.fade-exit{
+  /* opacity: 1; */
+  transform: translateX(0);
+  position: unset;
+}
+.fade-exit.fade-exit-active{
+  /* opacity: 0; */
+  position: absolute;
+  transform: translateX(-100vw);
+  transition: transform 500ms;
 }
