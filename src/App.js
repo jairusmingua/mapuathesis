@@ -65,6 +65,7 @@ function App() {
                           setHeader={setHeader}
                           setSub={setSub}
                           setUserInfo={setUserInfo}
+                          userInfo={userInfo}
                           headertxt={headertxt}
                           subtxt={subtxt}
                           tweet={tweet}

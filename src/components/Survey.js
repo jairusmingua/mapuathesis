@@ -3,12 +3,14 @@ import { BrowserRouter as Router, NavLink, useHistory } from "react-router-dom";
 import { ProgressBar } from "react-bootstrap";
 import axios from "axios";
 function Survey({...props}) {
+  let api_url = process.env.REACT_APP_API || "http://" + window.location.hostname + ":5000/";
   let history = useHistory();
   const [isLoaded, setLoaded] = useState(false);
   let numberOfQuestions = 5;
   const [questionIndex, setQuestionIndex] = useState(1);
   let toggles = ["Yes", "No", "none"];
   const [toggle, setToggle] = useState(toggles["none"]);
+  const [id,setId] =useState("");
   console.log(props);
 
   useEffect(() => {
@@ -21,7 +23,23 @@ function Survey({...props}) {
     props.setSub("Lock-in your answer");
     setToggle("none");
   }, [props.tweet]);
-
+  async function respondLabel(answer){
+    let response = {
+      _id:id,
+      answer:answer,
+      respondent:props.userInfo
+    }
+    console.log(response);
+    axios.post(api_url,response,{
+      headers:{
+        "Content-Type":"application/json"
+      }
+    }).then((data)=>{
+      console.log(data);
+    }).catch((err)=>{
+      console.log(err);
+    })
+  }
   function nextQuestion(buttonpressed) {
     if (toggle == "none") {
       setToggle(buttonpressed);
@@ -31,6 +49,11 @@ function Survey({...props}) {
         localStorage.setItem("s_u", "false");
         window.location = "/ThankYou";
       } else {
+        if(buttonpressed=="Yes"){
+          respondLabel(1);
+        }else if(buttonpressed=="No"){
+          respondLabel(0);
+        }
         refreshTweet();
       }
     } else {
@@ -41,9 +64,7 @@ function Survey({...props}) {
     setLoaded(false);
     var tweet_ = null;
     await axios
-      .get(
-        process.env.REACT_APP_API ||
-        "http://" + window.location.hostname + ":5000/",
+      .get(api_url,
         {
           headers: {
             "Content-type": "application/json",
@@ -54,7 +75,7 @@ function Survey({...props}) {
         console.log(data.data[0].text);
         tweet_ = data.data[0].text;
         props.setTweet(tweet_);
-        
+        setId(data.data[0]._id);
         setLoaded(true);
       })
       .catch((err) => {
