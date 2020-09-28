@@ -60,9 +60,9 @@ function Survey({...props}) {
         }else if(buttonpressed=="No"){
           respondLabel(0);
         }
-        localStorage.setItem("s_u", "false");
         await doneResponse();
-        // window.location = "/ThankYou";
+        localStorage.setItem("s_u", "false");
+        window.location = "/ThankYou";
       } else {
         if(buttonpressed=="Yes"){
           respondLabel(1);
