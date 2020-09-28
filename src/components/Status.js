@@ -2,13 +2,12 @@ import Axios from 'axios';
 import React,{useEffect,useState} from 'react'
 import socket from 'socket.io-client';
 import axios from 'axios';
-const SOCKET_URL = process.env.REACT_APP_API+":5500/" || "http://" + window.location.hostname + ":5500/";
-const API_URL = process.env.REACT_APP_API+"/" || "http://" + window.location.hostname + ":5000/";
+const API_URL = process.env.REACT_APP_API || "http://" + window.location.hostname + ":5000/";
 function Status() {
     const [count,setCount] = useState();
     const [isLoaded,setIsLoaded] = useState(false);
     useEffect(()=>{
-        axios.get(API_URL+"remaining")
+        axios.get(API_URL+"/remaining")
         .then((data)=>{
             setCount(data.data.responded);
             setIsLoaded(true);
@@ -17,7 +16,7 @@ function Status() {
         .catch((err)=>{
             console.log(err);
         })
-        const io = socket(SOCKET_URL);
+        const io = socket(API_URL);
         io.on("update",data=>{
             setCount(data.responded);
         })
