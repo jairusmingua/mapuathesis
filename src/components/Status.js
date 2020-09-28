@@ -3,7 +3,7 @@ import React,{useEffect,useState} from 'react'
 import socket from 'socket.io-client';
 import axios from 'axios';
 const SOCKET_URL = process.env.REACT_APP_API+":5500/" || "http://" + window.location.hostname + ":5500/";
-const API_URL = process.env.REACT_APP_API || "http://" + window.location.hostname + ":5000/";
+const API_URL = process.env.REACT_APP_API+"/" || "http://" + window.location.hostname + ":5000/";
 function Status() {
     const [count,setCount] = useState();
     const [isLoaded,setIsLoaded] = useState(false);
