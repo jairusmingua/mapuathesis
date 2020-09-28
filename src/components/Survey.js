@@ -1,18 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { BrowserRouter as Router, NavLink, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { ProgressBar } from "react-bootstrap";
 import axios from "axios";
 function Survey({...props}) {
-  let api_url = process.env.REACT_APP_API || "http://" + window.location.hostname + ":5000/";
+  let api_url = process.env.REACT_APP_API || "http://" + window.location.hostname + ":5000";
   let history = useHistory();
   const [isLoaded, setLoaded] = useState(false);
-  let numberOfQuestions = 10;
+  let numberOfQuestions = process.env.NODE_ENV =="production"?25:3;
   const [questionIndex, setQuestionIndex] = useState(1);
   let toggles = ["Yes", "No", "none"];
   const [toggle, setToggle] = useState(toggles["none"]);
   const [id,setId] =useState("");
-  console.log(props);
-
   useEffect(() => {
     props.setHeader("Is the tweet fire related or not?");
     props.setSub("Lock-in your answer");
@@ -40,7 +38,18 @@ function Survey({...props}) {
       console.log(err);
     })
   }
-  function nextQuestion(buttonpressed) {
+  async function doneResponse(){
+    console.log(props);
+    console.log("done" + props.userInfo)
+
+    axios.post(api_url+"/done",props.userInfo,{
+      headers:{
+        "Content-Type":"application/json"
+      }
+    }).then((data)=>console.log(data))
+    .catch((err)=>console.log(err))
+  }
+  async function nextQuestion(buttonpressed) {
     if (toggle == "none") {
       setToggle(buttonpressed);
     } else if (toggle != toggles["none"] && buttonpressed == toggle) {
@@ -52,7 +61,8 @@ function Survey({...props}) {
           respondLabel(0);
         }
         localStorage.setItem("s_u", "false");
-        window.location = "/ThankYou";
+        await doneResponse();
+        // window.location = "/ThankYou";
       } else {
         if(buttonpressed=="Yes"){
           respondLabel(1);

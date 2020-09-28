@@ -9,7 +9,6 @@ import ThankYou from "./components/ThankYou";
 import PublicRoute from "./components/PublicRoute";
 import PrivateRoute from "./components/PrivateRoute";
 
-
 import Status from "./components/Status";
 import {
   BrowserRouter as Router,
@@ -26,22 +25,36 @@ function App() {
   const [userInfo, setUserInfo] = useState({});
   const [tweet, setTweet] = useState("");
   function formSubmit(data) {
+    let keys = Object.keys(data);
+    keys.map((item)=>{
+      if(item=="firstName"||item=="lastName"){
+        data[item] =toTitleCase(data[item]);
+      }
+    })
     setUserInfo(data);
+  }
+  function toTitleCase(str) {
+    return str.replace(
+      /\w\S*/g,
+      function(txt) {
+        return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+      }
+    );
   }
   return (
     <div className="App">
-      <div class="container">
-        <div class="row mt-5 mx-2">
-          <div class="col">
+      <div className="container">
+        <div className="row mt-5 mx-2">
+          <div className="col">
      
-            <div class="row">
-              <div class="col-8 p-0 mt-lg-5 mt-2">
-                <h1 class="float-center">{headertxt}</h1>
-                <p class="float-center lead">{subtxt}</p>
+            <div className="row">
+              <div className="col-8 p-0 mt-lg-5 mt-2">
+                <h1 className="float-center">{headertxt}</h1>
+                <p className="float-center lead">{subtxt}</p>
               </div>
-              <div class="col-4 ">
+              <div className="col-4 ">
                 <img
-                  class="logo float-right"
+                  className="logo float-right"
                   src="https://upload.wikimedia.org/wikipedia/en/6/65/Map%C3%BAa_University_logo.png"
                 />
               </div>
@@ -61,6 +74,7 @@ function App() {
                             setHeader={setHeader}
                             setSub={setSub}
                             formSubmit={formSubmit}
+                            userInfo={userInfo}
                           />
                         </Route>
                         <PublicRoute

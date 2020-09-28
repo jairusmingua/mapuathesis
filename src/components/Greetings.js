@@ -9,8 +9,8 @@ function Greetings(props) {
     
   });
   return (
-    <div class="row pt-4 page">
-      <p class="col-12 col-sm-12 col-md-9 p-0 lead">
+    <div className="row pt-4 page">
+      <p className="col-12 col-sm-12 col-md-9 p-0 lead">
         We are students from Mapua University and we are conducting a survey
         regarding our thesis. Our thesis aims to&nbsp;
         <b>
@@ -22,12 +22,12 @@ function Greetings(props) {
         </b>
         &nbsp;Your response are valuable in order to achieve this task.
       </p>
-      <div class="col-12 col-sm-12 col-md-3"></div>
-      <div class="row mt-4 ml-0">
+      <div className="col-12 col-sm-12 col-md-3"></div>
+      <div className="row mt-4 ml-0">
        
           
             <NavLink className="text-white" to="/FillUp">
-            <button type="button" class="btn primarybtn btn-lg">Take Survey</button>
+            <button type="button" className="btn primarybtn btn-lg">Take Survey</button>
             </NavLink>
           
        

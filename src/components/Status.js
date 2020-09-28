@@ -1,4 +1,3 @@
-import Axios from 'axios';
 import React,{useEffect,useState} from 'react'
 import socket from 'socket.io-client';
 import axios from 'axios';
