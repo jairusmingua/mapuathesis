@@ -6,7 +6,7 @@ function Survey({...props}) {
   let api_url = process.env.REACT_APP_API || "http://" + window.location.hostname + ":5000/";
   let history = useHistory();
   const [isLoaded, setLoaded] = useState(false);
-  let numberOfQuestions = 5;
+  let numberOfQuestions = 10;
   const [questionIndex, setQuestionIndex] = useState(1);
   let toggles = ["Yes", "No", "none"];
   const [toggle, setToggle] = useState(toggles["none"]);
@@ -46,6 +46,11 @@ function Survey({...props}) {
     } else if (toggle != toggles["none"] && buttonpressed == toggle) {
       setQuestionIndex(questionIndex + 1);
       if (questionIndex == numberOfQuestions) {
+        if(buttonpressed=="Yes"){
+          respondLabel(1);
+        }else if(buttonpressed=="No"){
+          respondLabel(0);
+        }
         localStorage.setItem("s_u", "false");
         window.location = "/ThankYou";
       } else {

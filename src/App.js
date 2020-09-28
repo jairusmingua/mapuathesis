@@ -8,6 +8,9 @@ import Survey from "./components/Survey";
 import ThankYou from "./components/ThankYou";
 import PublicRoute from "./components/PublicRoute";
 import PrivateRoute from "./components/PrivateRoute";
+
+
+import Status from "./components/Status";
 import {
   BrowserRouter as Router,
   NavLink,
@@ -89,6 +92,13 @@ function App() {
                   </TransitionGroup>
                 )}
               />
+            </Router>
+            <Router>
+                  <Switch>
+                    <Route exact path="/Status">
+                            <Status setHeader={setHeader} setSub={setSub} />
+                          </Route>
+                  </Switch>
             </Router>
           </div>
         </div>
