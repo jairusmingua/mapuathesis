@@ -95,7 +95,9 @@ function Survey({...props}) {
       })
       .catch((err) => {
         console.log(err);
-        setLoaded(false);
+        setLoaded(true);
+        localStorage.setItem("s_u", "false");
+        window.location = "/ThankYou";
       });
   }
   return (
