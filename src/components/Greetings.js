@@ -6,6 +6,8 @@ function Greetings(props) {
     props.setHeader("Greetings!")
     props.setSub("");   
     localStorage.removeItem("s_u");
+    localStorage.removeItem("user");
+    localStorage.removeItem("role");
     
   });
   return (

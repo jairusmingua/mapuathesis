@@ -8,7 +8,7 @@ import Survey from "./components/Survey";
 import ThankYou from "./components/ThankYou";
 import PublicRoute from "./components/PublicRoute";
 import PrivateRoute from "./components/PrivateRoute";
-
+import axios from 'axios';
 import Status from "./components/Status";
 import {
   BrowserRouter as Router,
@@ -20,6 +20,8 @@ import {} from "dotenv/config";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 
 function App() {
+  let api_url =
+    process.env.REACT_APP_API || "http://" + window.location.hostname + ":5000";
   const [headertxt, setHeader] = useState("");
   const [subtxt, setSub] = useState("");
   const [userInfo, setUserInfo] = useState({});
@@ -31,7 +33,23 @@ function App() {
         data[item] =toTitleCase(data[item]);
       }
     })
-    setUserInfo(data);
+    //setUserInfo(data);
+    localStorage.setItem("user",JSON.stringify(data));
+    //check user role
+    axios
+        .post(api_url+"/role", JSON.parse(localStorage.getItem("user")), {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+        .then((data) => {
+          console.log(data);
+          localStorage.setItem("role",JSON.stringify(data.data))
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+
   }
   function toTitleCase(str) {
     return str.replace(

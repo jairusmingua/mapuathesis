@@ -2,15 +2,24 @@ import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { ProgressBar } from "react-bootstrap";
 import axios from "axios";
-function Survey({...props}) {
-  let api_url = process.env.REACT_APP_API || "http://" + window.location.hostname + ":5000";
+function Survey({ ...props }) {
+  let api_url =
+    process.env.REACT_APP_API || "http://" + window.location.hostname + ":5000";
   let history = useHistory();
   const [isLoaded, setLoaded] = useState(false);
-  let numberOfQuestions = process.env.NODE_ENV =="production"?25:3;
+  let numberOfQuestions = process.env.NODE_ENV == "production" ? 25 : 3;
+  try {
+    if(JSON.parse(localStorage.getItem("role"))["role"]=="admin"){
+      numberOfQuestions = -1;
+    }
+    
+  } catch (error) {
+    
+  }
   const [questionIndex, setQuestionIndex] = useState(1);
   let toggles = ["Yes", "No", "none"];
   const [toggle, setToggle] = useState(toggles["none"]);
-  const [id,setId] =useState("");
+  const [id, setId] = useState("");
   useEffect(() => {
     props.setHeader("Is the tweet fire related or not?");
     props.setSub("Lock-in your answer");
@@ -21,33 +30,40 @@ function Survey({...props}) {
     props.setSub("Lock-in your answer");
     setToggle("none");
   }, [props.tweet]);
-  async function respondLabel(answer){
-    let response = {
-      _id:id,
-      answer:answer,
-      respondent:props.userInfo
+  async function respondLabel(answer) {
+    if (localStorage.getItem("user")) {
+      let response = {
+        _id: id,
+        answer: answer,
+        respondent: JSON.parse(localStorage.getItem("user"))
+      }
+      console.log(response);
+      axios
+        .post(api_url, response, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+        .then((data) => {
+          console.log(data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
-    console.log(response);
-    axios.post(api_url,response,{
-      headers:{
-        "Content-Type":"application/json"
-      }
-    }).then((data)=>{
-      console.log(data);
-    }).catch((err)=>{
-      console.log(err);
-    })
   }
-  async function doneResponse(){
+  async function doneResponse() {
     console.log(props);
-    console.log("done" + props.userInfo)
+    console.log("done" + props.userInfo);
 
-    axios.post(api_url+"/done",props.userInfo,{
-      headers:{
-        "Content-Type":"application/json"
-      }
-    }).then((data)=>console.log(data))
-    .catch((err)=>console.log(err))
+    axios
+      .post(api_url + "/done", props.userInfo, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      .then((data) => console.log(data))
+      .catch((err) => console.log(err));
   }
   async function nextQuestion(buttonpressed) {
     if (toggle == "none") {
@@ -55,18 +71,18 @@ function Survey({...props}) {
     } else if (toggle != toggles["none"] && buttonpressed == toggle) {
       setQuestionIndex(questionIndex + 1);
       if (questionIndex == numberOfQuestions) {
-        if(buttonpressed=="Yes"){
+        if (buttonpressed == "Yes") {
           respondLabel(1);
-        }else if(buttonpressed=="No"){
+        } else if (buttonpressed == "No") {
           respondLabel(0);
         }
         await doneResponse();
         localStorage.setItem("s_u", "false");
         window.location = "/ThankYou";
       } else {
-        if(buttonpressed=="Yes"){
+        if (buttonpressed == "Yes") {
           respondLabel(1);
-        }else if(buttonpressed=="No"){
+        } else if (buttonpressed == "No") {
           respondLabel(0);
         }
         refreshTweet();
@@ -79,13 +95,11 @@ function Survey({...props}) {
     setLoaded(false);
     var tweet_ = null;
     await axios
-      .get(api_url,
-        {
-          headers: {
-            "Content-type": "application/json",
-          },
-        }
-      )
+      .get(api_url, {
+        headers: {
+          "Content-type": "application/json",
+        },
+      })
       .then((data) => {
         console.log(data.data[0].text);
         tweet_ = data.data[0].text;
@@ -102,7 +116,7 @@ function Survey({...props}) {
   }
   return (
     <div>
-      {isLoaded ? 
+      {isLoaded ? (
         <div className="row pt-4 pb-5 mb-5">
           <div className="col-12 box">
             <h5>{props.tweet}</h5>
@@ -139,17 +153,17 @@ function Survey({...props}) {
           ></ProgressBar>
           <div className="col-12">
             <p className="text-center mt-2">
-              Question {questionIndex} out of {numberOfQuestions}
+              Question {questionIndex} out of {numberOfQuestions==-1?"katapusan ng mundo":numberOfQuestions}
             </p>
           </div>
         </div>
-      : 
+      ) : (
         <div className="d-flex justify-content-center mt-3">
           <div className="spinner-border" role="status">
             <span className="sr-only">Loading...</span>
           </div>
         </div>
-      }
+      )}
     </div>
   );
 }

@@ -54,7 +54,7 @@ img.logo {
   line-height: 20px;
   background-color: #739203;
   font-size: 0.9em;
-  position: absolute;
+  /* position: absolute; */
   /* margin-top: 10vh; */
   
 }
@@ -84,6 +84,7 @@ img.logo {
 .page{
   /* position: absolute; */
   padding-right: 1em;
+  padding-bottom: 25vh;
   height: 100%;
   width: 100%;
   overflow: hidden;
