@@ -6,6 +6,7 @@ const API_URL =
 function Status() {
   const [count, setCount] = useState();
   const [list, setList] = useState({});
+  const [newTweets, setNewTweets] = useState({});
   const [isLoaded, setIsLoaded] = useState(false);
   useEffect(() => {
     axios
@@ -26,6 +27,14 @@ function Status() {
       .catch((err) => {
         console.log(err);
       });
+    axios
+      .get(API_URL + "/last")
+      .then((data) => {
+        setNewTweets(data.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
   useEffect(() => {
     const io = socket(API_URL);
@@ -39,6 +48,30 @@ function Status() {
         .catch((err) => {
           console.log(err);
         });
+      });
+    }, []);
+  useEffect(() => {
+    const io = socket(API_URL);
+    io.on("tweet", (data) => {
+      console.log(data)
+      axios
+        .get(API_URL + "/last")
+        .then((data) => {
+          setNewTweets(data.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      axios
+      .get(API_URL + "/status")
+      .then((data) => {
+        setCount(data.data);
+        setIsLoaded(true);
+        // console.log(data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     });
   }, []);
   return (
@@ -64,19 +97,32 @@ function Status() {
 
             <li>Total dataset: {count["total"]}</li>
           </ul>
-          <ul style={{listStyle:"none"}}>
-            {list.map((data, i) => {
-              return (
-                <li key={i}>
-                  <div className="row py-3">
-                    <div className="col-6">{data.text}</div>
-                    <div className="col-6">{data.label}</div>
-                    
-                  </div>
-                </li>
-              );
-            })}
-          </ul>
+          <div className="row">
+            <ul className="col-6" style={{ listStyle: "none" }}>
+              {list.map((data, i) => {
+                return (
+                  <li key={i}>
+                    <div className="row py-3">
+                      <div className="col-6">{data.text}</div>
+                      <div className="col-6">{data.label}</div>
+                    </div>
+                  </li>
+                );
+              })}
+            </ul>
+            <ul className="col-6" style={{ listStyle: "none" }}>
+              {newTweets.map((data, i) => {
+                return (
+                  <li key={i}>
+                    <div className="row py-3">
+                      <div className="col-6">{data.text}</div>
+                      <div className="col-6">{data.label}</div>
+                    </div>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
         </>
       ) : (
         <div className="d-flex justify-content-center mt-3">
