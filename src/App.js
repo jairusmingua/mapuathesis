@@ -71,10 +71,12 @@ function App() {
                 <p className="float-center lead">{subtxt}</p>
               </div>
               <div className="col-4 ">
+                <a href="/">
                 <img
                   className="logo float-right"
                   src="https://upload.wikimedia.org/wikipedia/en/6/65/Map%C3%BAa_University_logo.png"
                 />
+                </a>
               </div>
             </div>
     
